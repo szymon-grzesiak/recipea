@@ -2,6 +2,7 @@ import { View, Text, Image } from "react-native";
 import React from "react";
 import { Tabs, Redirect } from "expo-router";
 import { icons } from "../../constants";
+import { StatusBar } from "expo-status-bar";
 
 const TabIcon = ({ icon, color, name, focused }) => {
   return (
@@ -14,6 +15,7 @@ const TabIcon = ({ icon, color, name, focused }) => {
       />
       <Text
         className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}
+        style={{ color: color }}
       >
         {name}
       </Text>
@@ -42,7 +44,7 @@ const TabsLayout = () => {
           name="home"
           options={{
             title: "Home",
-            headerShow: false,
+            headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.home}
@@ -57,7 +59,7 @@ const TabsLayout = () => {
           name="bookmark"
           options={{
             title: "Bookmark",
-            headerShow: false,
+            headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.bookmark}
@@ -72,7 +74,7 @@ const TabsLayout = () => {
           name="create"
           options={{
             title: "Create",
-            headerShow: false,
+            headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.plus}
@@ -87,7 +89,7 @@ const TabsLayout = () => {
           name="profile"
           options={{
             title: "Profile",
-            headerShow: false,
+            headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.profile}
@@ -99,6 +101,7 @@ const TabsLayout = () => {
           }}
         />
       </Tabs>
+      <StatusBar backgroundColor="#161622" style="light" />
     </>
   );
 };

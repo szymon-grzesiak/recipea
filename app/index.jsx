@@ -1,11 +1,18 @@
-import { Link } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Text, View, ScrollView, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../constants";
 import { CustomButton } from "../components";
+import { Redirect, useRouter } from "expo-router";
+import { useGlobalContext } from "../context/GlobalProvider";
 
 export default function App() {
+  const { isLoading, isLoggedIn } = useGlobalContext();
+
+  if (!isLoading && isLoggedIn) {
+    return <Redirect href={"/home"} />;
+  }
+  const router = useRouter();
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView
@@ -25,7 +32,7 @@ export default function App() {
             className="max-w-[380px] w-full h-[298px]"
             resizeMode="contain"
           />
-           <View className="relative mt-5">
+          <View className="relative mt-5">
             <Text className="text-3xl text-white font-bold text-center">
               Discover Endless{"\n"}
               Possibilities with{" "}
