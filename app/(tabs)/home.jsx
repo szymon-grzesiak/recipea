@@ -41,6 +41,8 @@ const Home = () => {
             avatar={item.creator.avatar}
             thumbnail={item.thumbnail}
             video={item.video}
+            userId={item.creator.$id}
+            postId={item.$id}
           />
         )}
         ListHeaderComponent={() => (

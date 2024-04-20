@@ -1,12 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ResizeMode, Video } from "expo-av";
 import { View, Text, TouchableOpacity, Image } from "react-native";
+import { toggleFavorite, isFavorite } from "../lib/appwrite";
 
 import { icons } from "../constants";
 
-const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
+const VideoCard = ({
+  title,
+  creator,
+  avatar,
+  thumbnail,
+  video,
+  userId,
+  postId,
+}) => {
   const [play, setPlay] = useState(false);
+  const [heart, setHeart] = useState(false);
 
+  useEffect(() => {
+    const checkFavorite = async () => {
+      const favId = await isFavorite({ userId, postId });
+      setHeart(!!favId);
+    };
+
+    checkFavorite();
+  }, [userId, postId]); // Dodaj userId i postId jako zależności, jeśli są dynamiczne
+
+  const handlePress = async () => {
+    console.log("creator = " + userId + " video = " + postId);
+    const favId = await isFavorite({ userId, postId });
+    const newFavStatus = await toggleFavorite({
+      userId: userId,
+      postId: postId,
+      favId: favId,
+    });
+    setHeart(newFavStatus);
+  };
   return (
     <View className="flex flex-col items-center px-4 mb-14">
       <View className="flex flex-row gap-3 items-start">
@@ -35,8 +64,18 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
           </View>
         </View>
 
-        <View className="pt-2">
-          <Image source={icons.menu} className="w-5 h-5" resizeMode="contain" />
+        <View className="relative pt-2">
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={handlePress}
+            className="w-20 flex justify-end items-end"
+          >
+            <Image
+              source={heart ? icons.heart : icons.blackHeart}
+              className="w-8 h-8 bg-white/10 rounded-xl"
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
         </View>
       </View>
 

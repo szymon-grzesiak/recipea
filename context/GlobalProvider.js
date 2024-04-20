@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { getCurrentUser } from "../lib/appwrite";
+import { getCurrentUser, getFavorites } from "../lib/appwrite";
 
 const GlobalContext = createContext();
 export const useGlobalContext = () => useContext(GlobalContext);
@@ -9,28 +9,33 @@ const GlobalProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Efekt do pobrania danych o bieżącym użytkowniku
   useEffect(() => {
-    getCurrentUser()
-      .then((res) => {
-        if (res) {
-          setUser(res);
+    const loadCurrentUser = async () => {
+      try {
+        const currentUser = await getCurrentUser();
+        if (currentUser) {
+          setUser(currentUser);
           setIsLoggedIn(true);
-        } else {
-          setIsLoggedIn(false);
-          setUser(null);
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error(error);
-      })
-      .finally(() => {
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+    loadCurrentUser();
   }, []);
 
   return (
     <GlobalContext.Provider
-      value={{ isLoggedIn, setIsLoggedIn, user, setUser, loading }}
+      value={{
+        isLoggedIn,
+        user,
+        setUser,
+        setIsLoggedIn,
+        loading,
+      }}
     >
       {children}
     </GlobalContext.Provider>
