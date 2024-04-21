@@ -14,11 +14,15 @@ import { icons } from "../../constants";
 import useAppwrite from "../../lib/useAppWrite";
 import { getFavorites, signOut } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
-import { EmptyState, InfoBox, VideoCard } from "../../components";
+import { EmptyState, InfoBox, RecipeCard } from "../../components";
+import useStore from "../../lib/store";
+
 
 const Bookmark = () => {
   const { user, setUser, setIsLoggedIn } = useGlobalContext();
   const { data: post, refetch } = useAppwrite(() => getFavorites(user.$id));
+  const favorites = useStore((state) => state.favorites);
+
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -27,6 +31,9 @@ const Bookmark = () => {
     await refetch();
     setRefreshing(false);
   };
+  useEffect(() => {
+    refetch();
+  }, [favorites]);
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -34,10 +41,10 @@ const Bookmark = () => {
         data={post}
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
-          <VideoCard
+          <RecipeCard
+            refetch={refetch}
             title={item.title}
             thumbnail={item.thumbnail}
-            video={item.video}
             creator={item.creator.username}
             avatar={item.creator.avatar}
             userId={item.creator.$id}
@@ -46,8 +53,8 @@ const Bookmark = () => {
         )}
         ListEmptyComponent={() => (
           <EmptyState
-            title="No Videos Found"
-            subtitle="No videos found for this profile"
+            title="No Recipes Found"
+            subtitle="No recipes found"
           />
         )}
         ListHeaderComponent={() => (

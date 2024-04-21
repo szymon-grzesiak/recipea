@@ -13,6 +13,8 @@ import eye from "../assets/icons/eye.png";
 import play from "../assets/icons/play.png";
 import heart from "../assets/icons/heart.png";
 import blackHeart from "../assets/icons/black_heart.png";
+import editIcon from "../assets/icons/edit.png";
+import deleteIcon from "../assets/icons/delete.png";
 
 export default {
   play,
@@ -30,4 +32,6 @@ export default {
   eye,
   heart,
   blackHeart,
+  editIcon,
+  deleteIcon,
 };

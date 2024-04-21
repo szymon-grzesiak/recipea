@@ -1,16 +1,25 @@
+import React, { useState } from "react";
+
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Image, FlatList, TouchableOpacity } from "react-native";
+import {
+  View,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  RefreshControl,
+} from "react-native";
 
 import { icons } from "../../constants";
 import useAppwrite from "../../lib/useAppWrite";
 import { getUserPosts, signOut } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
-import { EmptyState, InfoBox, VideoCard } from "../../components";
+import { EmptyState, InfoBox, RecipeCard } from "../../components";
 
 const Profile = () => {
   const { user, setUser, setIsLoggedIn } = useGlobalContext();
-  const { data: posts } = useAppwrite(() => getUserPosts(user.$id));
+  const { data: posts, refetch } = useAppwrite(() => getUserPosts(user.$id));
+  const [refreshing, setRefreshing] = useState(false);
 
   const logout = async () => {
     await signOut();
@@ -20,24 +29,32 @@ const Profile = () => {
     router.replace("/sign-in");
   };
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
+
   return (
     <SafeAreaView className="bg-primary h-full">
       <FlatList
         data={posts}
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
-          <VideoCard
+          <RecipeCard
+            onProfile={true}
             title={item.title}
             thumbnail={item.thumbnail}
-            video={item.video}
             creator={item.creator.username}
             avatar={item.creator.avatar}
+            userId={item.creator.$id}
+            postId={item.$id}
           />
         )}
         ListEmptyComponent={() => (
           <EmptyState
-            title="No Videos Found"
-            subtitle="No videos found for this profile"
+            title="No Recipes Found"
+            subtitle="No recipes found for this profile"
           />
         )}
         ListHeaderComponent={() => (
@@ -82,6 +99,9 @@ const Profile = () => {
             </View>
           </View>
         )}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </SafeAreaView>
   );

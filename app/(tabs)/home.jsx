@@ -6,7 +6,7 @@ import {
   RefreshControl,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
 import SearchInput from "../../components/SearchInput";
@@ -14,13 +14,15 @@ import Trending from "../../components/Trending";
 import EmptyState from "../../components/EmptyState";
 import { getAllPosts, getLatestPosts } from "../../lib/appwrite";
 import useAppwrite from "../../lib/useAppWrite";
-import VideoCard from "../../components/VideoCard";
+import RecipeCard from "../../components/RecipeCard";
 import { useGlobalContext } from "../../context/GlobalProvider";
+import useStore from "../../lib/store";
 
 const Home = () => {
   const { user } = useGlobalContext();
   const { data: posts, refetch } = useAppwrite(getAllPosts);
   const { data: latestPosts } = useAppwrite(getLatestPosts);
+  const favorites = useStore((state) => state.favorites);
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -29,18 +31,18 @@ const Home = () => {
     await refetch();
     setRefreshing(false);
   };
+
   return (
     <SafeAreaView className="bg-primary h-full">
       <FlatList
         data={posts ?? []}
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
-          <VideoCard
+          <RecipeCard
             title={item.title}
             creator={item.creator.username}
             avatar={item.creator.avatar}
             thumbnail={item.thumbnail}
-            video={item.video}
             userId={item.creator.$id}
             postId={item.$id}
           />
@@ -58,7 +60,7 @@ const Home = () => {
               </View>
               <View className="mt-1.5">
                 <Image
-                  source={images.logoSmall}
+                  source={images.logo}
                   className="w-9 h-10"
                   resizeMode="contain"
                 />
@@ -67,7 +69,7 @@ const Home = () => {
             <SearchInput />
             <View className="w-full flex-1 pt-5 pb-8">
               <Text className="text-lg font-pregular text-gray-100 mb-3">
-                Latest Videos
+                Latest Recipes
               </Text>
 
               <Trending posts={latestPosts ?? []} />
@@ -76,8 +78,8 @@ const Home = () => {
         )}
         ListEmptyComponent={() => (
           <EmptyState
-            title="No Videos Found"
-            subtitle="Be the first one to upload a video"
+            title="No Recipes Found"
+            subtitle="Be the first one to upload a recipe!"
           />
         )}
         refreshControl={

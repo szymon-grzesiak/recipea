@@ -45,8 +45,8 @@ export default function App() {
             />
           </View>
           <Text className="text-sm font-pregular text-gray-100 mt-7 text-center">
-            Where Creativity Meets Innovation: Embark on a Journey of Limitless
-            Exploration with Aora
+            Warmly welcome to Recipea, the best place to share and discover
+            recipes from around the world.
           </Text>
 
           <CustomButton

@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { router } from "expo-router";
+import { useState, useEffect } from "react";
+import { useLocalSearchParams, router } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
-import { SafeAreaView } from "react-native-safe-area-context";
 import {
+  SafeAreaView,
   View,
   Text,
   Alert,
@@ -10,20 +10,36 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-
 import { icons } from "../../constants";
-import { createPost } from "../../lib/appwrite";
+import { getPost, updatePost } from "../../lib/appwrite";
 import { CustomButton, FormField } from "../../components";
-import { useGlobalContext } from "../../context/GlobalProvider";
 
-const Create = () => {
-  const { user } = useGlobalContext();
+const Edit = () => {
+  const { id } = useLocalSearchParams();
+
   const [uploading, setUploading] = useState(false);
   const [form, setForm] = useState({
     title: "",
     thumbnail: null,
     description: "",
   });
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const post = await getPost(id);
+        setForm({
+          title: post.title,
+          thumbnail: { uri: post.thumbnail },
+          description: post.description,
+        });
+      } catch (error) {
+        Alert.alert("Error", "Failed to load the post details");
+      }
+    };
+
+    fetchPost();
+  }, [id]);
 
   const openPicker = async (selectType) => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -33,16 +49,10 @@ const Create = () => {
     });
 
     if (!result.canceled) {
-      if (selectType === "image") {
-        setForm({
-          ...form,
-          thumbnail: result.assets[0],
-        });
-      }
-    } else {
-      setTimeout(() => {
-        Alert.alert("Document picked", JSON.stringify(result, null, 2));
-      }, 100);
+      setForm({
+        ...form,
+        [selectType]: result.assets[0],
+      });
     }
   };
 
@@ -57,22 +67,16 @@ const Create = () => {
 
     setUploading(true);
     try {
-      await createPost({
+      await updatePost(id, {
         ...form,
-        userId: user.$id,
+        thumbnailUri: form.thumbnail.uri,
       });
 
-      Alert.alert("Success", "Post uploaded successfully");
+      Alert.alert("Success", "Post updated successfully");
       router.push("/home");
     } catch (error) {
       Alert.alert("Error", error.message);
     } finally {
-      setForm({
-        title: "",
-        thumbnail: null,
-        description: "",
-      });
-
       setUploading(false);
     }
   };
@@ -80,15 +84,16 @@ const Create = () => {
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView className="px-4 my-6">
-        <Text className="text-2xl text-white font-psemibold">Upload Recipe</Text>
+        <Text className="text-2xl text-white font-psemibold">Edit Recipe</Text>
 
         <FormField
           title="Recipe Title"
           value={form.title}
           placeholder="Give your recipe a catchy title..."
-          handleChangeText={(e) => setForm({ ...form, title: e })}
+          handleChangeText={(title) => setForm({ ...form, title })}
           otherStyles="mt-10"
         />
+
         <View className="mt-7 space-y-2">
           <Text className="text-base text-gray-100 font-pmedium">
             Thumbnail Image
@@ -120,8 +125,8 @@ const Create = () => {
         <FormField
           title="Description"
           value={form.description}
-          placeholder="Description of your recipe"
-          handleChangeText={(e) => setForm({ ...form, description: e })}
+          placeholder="Description"
+          handleChangeText={(description) => setForm({ ...form, description })}
           otherStyles="mt-7"
         />
 
@@ -136,4 +141,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default Edit;
