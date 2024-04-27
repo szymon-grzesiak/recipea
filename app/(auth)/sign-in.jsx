@@ -44,8 +44,8 @@ const SignIn = () => {
             className="w-[115px] h-[34px]"
           />
 
-          <Text className="text-2xl font-semibold text-white mt-10 font-psemibold">
-            Log in to Aora
+          <Text className="text-2xl font-semibold text-black mt-10 font-psemibold">
+            Log in to Recipea
           </Text>
           <FormField
             title="Email"
@@ -67,7 +67,7 @@ const SignIn = () => {
             isLoading={isSubmitting}
           />
           <View className="flex justify-center pt-5 flex-row gap-2">
-            <Text className="text-lg text-gray-100 font-pregular">
+            <Text className="text-lg text-black font-pregular">
               Don't have an account?
             </Text>
             <Link

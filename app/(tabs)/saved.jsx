@@ -17,12 +17,10 @@ import { useGlobalContext } from "../../context/GlobalProvider";
 import { EmptyState, InfoBox, RecipeCard } from "../../components";
 import useStore from "../../lib/store";
 
-
 const Bookmark = () => {
   const { user, setUser, setIsLoggedIn } = useGlobalContext();
   const { data: post, refetch } = useAppwrite(() => getFavorites(user.$id));
   const favorites = useStore((state) => state.favorites);
-
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -42,6 +40,7 @@ const Bookmark = () => {
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
           <RecipeCard
+            description={item.description}
             refetch={refetch}
             title={item.title}
             thumbnail={item.thumbnail}
@@ -52,14 +51,11 @@ const Bookmark = () => {
           />
         )}
         ListEmptyComponent={() => (
-          <EmptyState
-            title="No Recipes Found"
-            subtitle="No recipes found"
-          />
+          <EmptyState title="No Recipes Found" subtitle="No recipes found" />
         )}
         ListHeaderComponent={() => (
           <View className="bg-white/10 mt-6 mb-12 p-4">
-            <Text className="text-xl text-white">Your favorites</Text>
+            <Text className="text-3xl font-bold text-black">Your favorites</Text>
           </View>
         )}
         refreshControl={

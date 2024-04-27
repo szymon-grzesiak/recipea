@@ -9,6 +9,7 @@ import useStore from "../lib/store";
 import { router } from "expo-router";
 
 const VideoCard = ({
+  description,
   onProfile,
   title,
   creator,
@@ -36,7 +37,7 @@ const VideoCard = ({
 
   const handleEdit = () => {
     router.push(`/edit/${postId}`);
-    console.log(creator, title, avatar, thumbnail, userId, postId); 
+    console.log(creator, title, avatar, thumbnail, userId, postId);
   };
 
   const handleDelete = async () => {
@@ -73,13 +74,13 @@ const VideoCard = ({
 
           <View className="flex justify-center flex-1 ml-3 gap-y-1">
             <Text
-              className="font-psemibold text-sm text-white"
+              className="font-psemibold text-sm text-black"
               numberOfLines={1}
             >
               {title}
             </Text>
             <Text
-              className="text-xs text-gray-100 font-pregular"
+              className="text-xs text-black font-pregular"
               numberOfLines={1}
             >
               {creator}
@@ -120,16 +121,17 @@ const VideoCard = ({
           </View>
         )}
       </View>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          className="w-full h-60 rounded-xl mt-3 relative flex justify-center items-center"
-        >
-          <Image
-            source={{ uri: thumbnail }}
-            className="w-full h-full rounded-xl mt-3"
-            resizeMode="cover"
-          />
-        </TouchableOpacity>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        className="w-full h-60 rounded-xl mt-3 relative flex justify-center items-center"
+        onPress={() => router.push(`/info/${postId}`)}
+      >
+        <Image
+          source={{ uri: thumbnail }}
+          className="w-full h-full rounded-xl mt-3"
+          resizeMode="cover"
+        />
+      </TouchableOpacity>
     </View>
   );
 };

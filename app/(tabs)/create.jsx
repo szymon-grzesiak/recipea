@@ -47,11 +47,7 @@ const Create = () => {
   };
 
   const submit = async () => {
-    if (
-      (form.description === "") |
-      (form.title === "") |
-      !form.thumbnail 
-    ) {
+    if ((form.description === "") | (form.title === "") | !form.thumbnail) {
       return Alert.alert("Please provide all fields");
     }
 
@@ -80,7 +76,9 @@ const Create = () => {
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView className="px-4 my-6">
-        <Text className="text-2xl text-white font-psemibold">Upload Recipe</Text>
+        <Text className="text-2xl text-black font-psemibold">
+          Upload Recipe
+        </Text>
 
         <FormField
           title="Recipe Title"
@@ -90,7 +88,7 @@ const Create = () => {
           otherStyles="mt-10"
         />
         <View className="mt-7 space-y-2">
-          <Text className="text-base text-gray-100 font-pmedium">
+          <Text className="text-base text-black font-pmedium">
             Thumbnail Image
           </Text>
 
@@ -109,7 +107,7 @@ const Create = () => {
                   alt="upload"
                   className="w-5 h-5"
                 />
-                <Text className="text-sm text-gray-100 font-pmedium">
+                <Text className="text-sm text-black font-pmedium">
                   Choose a file
                 </Text>
               </View>

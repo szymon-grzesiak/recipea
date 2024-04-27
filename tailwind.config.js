@@ -4,19 +4,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#161622",
+        primary: "#e0f2fe", // Bardzo jasny niebieski
         secondary: {
-          DEFAULT: "#FF9C01",
-          100: "#FF9001",
-          200: "#FF8E01",
+          DEFAULT: "#81d4fa", // Sky-blue
+          100: "#b3e5fc", // Jasny sky-blue
+          200: "#4fc3f7", // Nieco ciemniejszy sky-blue
         },
         black: {
           DEFAULT: "#000",
-          100: "#1E1E2D",
-          200: "#232533",
+          100: "#fff5ee", // Bardzo jasny sand
+          200: "#f5deb3", // Ciemniejszy sand
         },
         gray: {
-          100: "#CDCDE0",
+          100: "#E9ECEF", // Bardzo jasny szary
         },
       },
       fontFamily: {

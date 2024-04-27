@@ -42,6 +42,7 @@ const Profile = () => {
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
           <RecipeCard
+            description={item.description}
             onProfile={true}
             title={item.title}
             thumbnail={item.thumbnail}

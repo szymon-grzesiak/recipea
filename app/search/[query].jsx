@@ -22,6 +22,7 @@ const Search = () => {
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
           <RecipeCard
+            description={item.description}
             title={item.title}
             thumbnail={item.thumbnail}
             creator={item.creator.username}
@@ -33,10 +34,10 @@ const Search = () => {
         ListHeaderComponent={() => (
           <>
             <View className="flex my-6 px-4">
-              <Text className="font-pmedium text-gray-100 text-sm">
+              <Text className="font-pmedium text-black text-sm">
                 Search Results
               </Text>
-              <Text className="text-2xl font-psemibold text-white mt-1">
+              <Text className="text-2xl font-psemibold text-black mt-1">
                 {query}
               </Text>
 

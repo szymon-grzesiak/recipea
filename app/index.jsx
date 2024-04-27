@@ -33,7 +33,7 @@ export default function App() {
             resizeMode="contain"
           />
           <View className="relative mt-5">
-            <Text className="text-3xl text-white font-bold text-center">
+            <Text className="text-3xl text-black font-bold text-center">
               Discover Endless{"\n"}
               Possibilities with{" "}
               <Text className="text-secondary-200">Recipea</Text>
@@ -44,7 +44,7 @@ export default function App() {
               className="w-[110px] h-[25px] absolute -bottom-6 -right-0"
             />
           </View>
-          <Text className="text-sm font-pregular text-gray-100 mt-7 text-center">
+          <Text className="text-sm font-pregular text-black mt-7 text-center">
             Warmly welcome to Recipea, the best place to share and discover
             recipes from around the world.
           </Text>
