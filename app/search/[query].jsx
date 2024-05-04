@@ -3,7 +3,7 @@ import { useLocalSearchParams } from "expo-router";
 import { View, Text, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import useAppwrite from "../../lib/useAppWrite";
+import useAppwrite from "../../hooks/useAppWrite";
 import { searchPosts } from "../../lib/appwrite";
 import { EmptyState, SearchInput, RecipeCard } from "../../components";
 

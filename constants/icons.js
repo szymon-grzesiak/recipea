@@ -16,6 +16,7 @@ import blackHeart from "../assets/icons/black_heart.png";
 import editIcon from "../assets/icons/edit.png";
 import deleteIcon from "../assets/icons/delete.png";
 import arrowSquare from "../assets/icons/square-rounded-arrow-left.png"
+import share from "../assets/icons/share.png";
 
 export default {
   play,
@@ -35,5 +36,6 @@ export default {
   blackHeart,
   editIcon,
   deleteIcon,
-  arrowSquare
+  arrowSquare,
+  share,
 };

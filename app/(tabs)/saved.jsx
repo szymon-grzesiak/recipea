@@ -11,7 +11,7 @@ import {
 } from "react-native";
 
 import { icons } from "../../constants";
-import useAppwrite from "../../lib/useAppWrite";
+import useAppwrite from "../../hooks/useAppWrite";
 import { getFavorites, signOut } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import { EmptyState, InfoBox, RecipeCard } from "../../components";
@@ -55,7 +55,9 @@ const Bookmark = () => {
         )}
         ListHeaderComponent={() => (
           <View className="bg-white/10 mt-6 mb-12 p-4">
-            <Text className="text-3xl font-bold text-black">Your favorites</Text>
+            <Text className="text-3xl font-bold text-black">
+              Your favorites
+            </Text>
           </View>
         )}
         refreshControl={

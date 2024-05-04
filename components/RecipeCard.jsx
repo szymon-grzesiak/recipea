@@ -3,12 +3,15 @@ import { ResizeMode, Video } from "expo-av";
 import { View, Text, TouchableOpacity, Image, Alert } from "react-native";
 import { toggleFavorite, isFavorite, deletePost } from "../lib/appwrite";
 import { Link, usePathname } from "expo-router";
+import * as Sharing from 'expo-sharing';
+import * as FileSystem from 'expo-file-system';
+import { captureRef } from 'react-native-view-shot';
 
 import { icons } from "../constants";
 import useStore from "../lib/store";
 import { router } from "expo-router";
 
-const VideoCard = ({
+const RecipeCard = ({
   description,
   onProfile,
   title,
@@ -62,7 +65,7 @@ const VideoCard = ({
   const heart = !!favorites[`${userId}-${postId}`];
   return (
     <View className="flex flex-col items-center px-4 mb-14">
-      <View className="flex flex-row gap-3 items-start">
+      <View className="flex flex-row gap-3 items-center">
         <View className="flex justify-center items-center flex-row flex-1">
           <View className="w-[46px] h-[46px] rounded-lg border border-secondary flex justify-center items-center p-0.5">
             <Image
@@ -75,13 +78,13 @@ const VideoCard = ({
           <View className="flex justify-center flex-1 ml-3 gap-y-1">
             <Text
               className="font-psemibold text-sm text-black"
-              numberOfLines={1}
+              numberOfLines={2}
             >
               {title}
             </Text>
             <Text
               className="text-xs text-black font-pregular"
-              numberOfLines={1}
+              numberOfLines={2}
             >
               {creator}
             </Text>
@@ -106,11 +109,10 @@ const VideoCard = ({
             </TouchableOpacity>
           </View>
         ) : (
-          <View className="relative pt-2">
+          <View className="relative flex flex-row-reverse justify-center items-center gap-4">
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={handlePress}
-              className="w-20 flex justify-end items-end"
             >
               <Image
                 source={heart ? icons.heart : icons.blackHeart}
@@ -136,4 +138,6 @@ const VideoCard = ({
   );
 };
 
-export default VideoCard;
+
+
+export default RecipeCard;

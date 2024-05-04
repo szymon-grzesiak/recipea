@@ -11,7 +11,7 @@ import {
 } from "react-native";
 
 import { icons } from "../../constants";
-import useAppwrite from "../../lib/useAppWrite";
+import useAppwrite from "../../hooks/useAppWrite";
 import { getUserPosts, signOut } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import { EmptyState, InfoBox, RecipeCard } from "../../components";

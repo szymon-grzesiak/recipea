@@ -8,6 +8,7 @@ import { Link, router } from "expo-router";
 import { getCurrentUser, signIn } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
+
 const SignIn = () => {
   const { setUser, setIsLoggedIn } = useGlobalContext();
   const [form, setForm] = useState({

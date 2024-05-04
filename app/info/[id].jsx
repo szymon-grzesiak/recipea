@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -10,18 +10,23 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { getPost } from "../../lib/appwrite";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { icons } from "../../constants";
+import * as Sharing from "expo-sharing";
+import { captureRef } from "react-native-view-shot";
+
 
 const Page = () => {
   const [post, setPost] = useState(null);
   const [error, setError] = useState(null);
   const { id } = useLocalSearchParams();
   const router = useRouter();
+  const captureViewRef = useRef();
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
         const fetchedPost = await getPost(id);
-        console.log(fetchedPost);
+        fetchedPost.ingredients = JSON.parse(fetchedPost.ingredients);
+        console.log('fetchedPost', fetchedPost);
         setPost(fetchedPost);
       } catch (e) {
         setError(e);
@@ -50,28 +55,67 @@ const Page = () => {
     );
   }
 
+  const sharePostDetails = async () => {
+    try {
+      const uri = await captureRef(captureViewRef.current, {
+        format: "jpg",
+        quality: 0.8,
+      });
+      await Sharing.shareAsync(uri, {
+        mimeType: "image/jpeg",
+        dialogTitle: "Share this post with your friends",
+      });
+    } catch (error) {
+      Alert.alert("Error", "Failed to share post: " + error.message);
+    }
+  };
+
   return (
-    <SafeAreaView className="bg-primary w-full h-full  gap-4">
+    <SafeAreaView className="bg-primary w-full h-full" ref={captureViewRef}>
       <TouchableOpacity onPress={() => router.back()}>
-        <View className="bg-secondary w-screen h-10 flex items-start pl-4 justify-center">
+        <View className="bg-secondary w-screen h-10 flex items-end px-4 justify-center">
           <Image
             style={{ width: "20px", height: "20px" }}
             source={icons.heart}
           />
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={sharePostDetails}
+            className="bg-white/30 rounded-full"
+          >
+            <Image
+              source={icons.share}
+              className="w-8 h-8 bg-white/10 rounded-xl"
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
         </View>
       </TouchableOpacity>
-      <View className="p-6">
-        <View className="flex-direction-rowjustify-content-space-between align-items-center">
-          <Text className="text-2xl font-bold text-black">Post</Text>
+      <View className="flex bg-white items-start mx-4 mt-4 rounded-xl shadow-md p-3 space-y-5">
+        <View className="flex flex-row justify-center items-center pt-5">
+          <Text className="font-bold text-xl">{post.title}</Text>
+          <Text className="text-xl"> | {post.creator.username}</Text>
         </View>
+
         <Image
           source={{ uri: post.thumbnail }}
-          style={{ width: 200, height: 200 }}
-          className="rounded-lg border-4"
+          className="rounded-lg border-4 w-full h-[200px]"
         />
-        <Text>{post.title}</Text>
+
+        <Text className="text-xl tracking-widest">Ingredients</Text>
+        <View className='w-full bg-black/5 shadow-md rounded-xl'>
+          <View className="flex flex-row space-x-2 justify-around bg-blue-200 p-2 rounded-xl">
+            <Text>Name</Text>
+            <Text>Quantity</Text>
+          </View>
+          {post.ingredients.map((ingredient, index) => (
+            <View className="flex p-2 justify-around flex-row space-x-2">
+            <Text className='flex-1 shrink line-clamp-1 overflow-ellipsis'>{ingredient.name}</Text>
+              <Text className='flex-1 shrink line-clamp-1 overflow-ellipsis'>{ingredient.quantity}</Text>
+            </View>
+            ))}
+        </View>
         <Text>{post.description}</Text>
-        <Text>{post.creator.username}</Text>
       </View>
     </SafeAreaView>
   );

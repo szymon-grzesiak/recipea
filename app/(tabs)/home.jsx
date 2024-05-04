@@ -13,7 +13,7 @@ import SearchInput from "../../components/SearchInput";
 import Trending from "../../components/Trending";
 import EmptyState from "../../components/EmptyState";
 import { getAllPosts, getLatestPosts } from "../../lib/appwrite";
-import useAppwrite from "../../lib/useAppWrite";
+import useAppwrite from "../../hooks/useAppWrite";
 import RecipeCard from "../../components/RecipeCard";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import useStore from "../../lib/store";
