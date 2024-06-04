@@ -17,6 +17,9 @@ import editIcon from "../assets/icons/edit.png";
 import deleteIcon from "../assets/icons/delete.png";
 import arrowSquare from "../assets/icons/square-rounded-arrow-left.png"
 import share from "../assets/icons/share.png";
+import drink from "../assets/icons/drink.png";
+import flame from "../assets/icons/flame.png";
+import loupe from "../assets/icons/loupe.png";
 
 export default {
   play,
@@ -38,4 +41,7 @@ export default {
   deleteIcon,
   arrowSquare,
   share,
+  drink,
+  flame,
+  loupe,
 };

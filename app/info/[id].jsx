@@ -13,7 +13,6 @@ import { icons } from "../../constants";
 import * as Sharing from "expo-sharing";
 import { captureRef } from "react-native-view-shot";
 
-
 const Page = () => {
   const [post, setPost] = useState(null);
   const [error, setError] = useState(null);
@@ -26,7 +25,7 @@ const Page = () => {
       try {
         const fetchedPost = await getPost(id);
         fetchedPost.ingredients = JSON.parse(fetchedPost.ingredients);
-        console.log('fetchedPost', fetchedPost);
+        console.log("fetchedPost", fetchedPost);
         setPost(fetchedPost);
       } catch (e) {
         setError(e);
@@ -72,25 +71,26 @@ const Page = () => {
 
   return (
     <SafeAreaView className="bg-primary w-full h-full" ref={captureViewRef}>
-      <TouchableOpacity onPress={() => router.back()}>
-        <View className="bg-secondary w-screen h-10 flex items-end px-4 justify-center">
+      <View className="bg-secondary w-screen h-10 flex flex-row items-center px-4 justify-between">
+        <TouchableOpacity onPress={() => router.back()}>
           <Image
-            style={{ width: "20px", height: "20px" }}
-            source={icons.heart}
+            className="w-8 h-8"
+            source={icons.arrowSquare}
+            resizeMode="contain"
           />
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={sharePostDetails}
-            className="bg-white/30 rounded-full"
-          >
-            <Image
-              source={icons.share}
-              className="w-8 h-8 bg-white/10 rounded-xl"
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={sharePostDetails}
+          className="bg-white/30 rounded-full"
+        >
+          <Image
+            source={icons.share}
+            className="w-8 h-8 bg-white/10 rounded-xl"
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+      </View>
       <View className="flex bg-white items-start mx-4 mt-4 rounded-xl shadow-md p-3 space-y-5">
         <View className="flex flex-row justify-center items-center pt-5">
           <Text className="font-bold text-xl">{post.title}</Text>
@@ -103,17 +103,24 @@ const Page = () => {
         />
 
         <Text className="text-xl tracking-widest">Ingredients</Text>
-        <View className='w-full bg-black/5 shadow-md rounded-xl'>
+        <View className="w-full bg-black/5 shadow-md rounded-xl">
           <View className="flex flex-row space-x-2 justify-around bg-blue-200 p-2 rounded-xl">
             <Text>Name</Text>
             <Text>Quantity</Text>
           </View>
           {post.ingredients.map((ingredient, index) => (
-            <View className="flex p-2 justify-around flex-row space-x-2">
-            <Text className='flex-1 shrink line-clamp-1 overflow-ellipsis'>{ingredient.name}</Text>
-              <Text className='flex-1 shrink line-clamp-1 overflow-ellipsis'>{ingredient.quantity}</Text>
+            <View
+              key={index}
+              className="flex p-2 justify-around flex-row space-x-2"
+            >
+              <Text className="flex-1 shrink line-clamp-1 overflow-ellipsis">
+                {ingredient.name}
+              </Text>
+              <Text className="flex-1 shrink line-clamp-1 overflow-ellipsis">
+                {ingredient.quantity}
+              </Text>
             </View>
-            ))}
+          ))}
         </View>
         <Text>{post.description}</Text>
       </View>

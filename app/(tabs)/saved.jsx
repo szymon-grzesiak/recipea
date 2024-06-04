@@ -1,25 +1,21 @@
 import { useEffect, useState } from "react";
-import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   View,
-  Image,
   FlatList,
-  TouchableOpacity,
   RefreshControl,
   Text,
 } from "react-native";
 
-import { icons } from "../../constants";
 import useAppwrite from "../../hooks/useAppWrite";
-import { getFavorites, signOut } from "../../lib/appwrite";
+import { getFavorites } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
-import { EmptyState, InfoBox, RecipeCard } from "../../components";
+import { EmptyState, RecipeCard } from "../../components";
 import useStore from "../../lib/store";
 
 const Bookmark = () => {
   const { user, setUser, setIsLoggedIn } = useGlobalContext();
-  const { data: post, refetch } = useAppwrite(() => getFavorites(user.$id));
+  const { data: post, refetch } = useAppwrite(() => getFavorites(user?.$id));
   const favorites = useStore((state) => state.favorites);
 
   const [refreshing, setRefreshing] = useState(false);
@@ -37,17 +33,17 @@ const Bookmark = () => {
     <SafeAreaView className="bg-primary h-full">
       <FlatList
         data={post}
-        keyExtractor={(item) => item.$id}
+        keyExtractor={(item) => item?.$id}
         renderItem={({ item }) => (
           <RecipeCard
-            description={item.description}
+            description={item?.description}
             refetch={refetch}
-            title={item.title}
-            thumbnail={item.thumbnail}
-            creator={item.creator.username}
-            avatar={item.creator.avatar}
-            userId={item.creator.$id}
-            postId={item.$id}
+            title={item?.title}
+            thumbnail={item?.thumbnail}
+            creator={item?.creator?.username}
+            avatar={item?.creator?.avatar}
+            userId={item?.creator?.$id}
+            postId={item?.$id}
           />
         )}
         ListEmptyComponent={() => (

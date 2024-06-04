@@ -28,14 +28,14 @@ export default function App() {
           />
 
           <Image
-            source={images.cards}
+            source={images.food}
             className="max-w-[380px] w-full h-[298px]"
             resizeMode="contain"
           />
           <View className="relative mt-5">
             <Text className="text-3xl text-black font-bold text-center">
-              Discover Endless{"\n"}
-              Possibilities with{" "}
+              Greatest culinary{"\n"}
+              miracles with{" "}
               <Text className="text-secondary-200">Recipea</Text>
             </Text>
 
@@ -44,7 +44,7 @@ export default function App() {
               className="w-[110px] h-[25px] absolute -bottom-6 -right-0"
             />
           </View>
-          <Text className="text-sm font-pregular text-black mt-7 text-center">
+          <Text className="text-sm font-normal text-black mt-7 text-center">
             Warmly welcome to Recipea, the best place to share and discover
             recipes from around the world.
           </Text>

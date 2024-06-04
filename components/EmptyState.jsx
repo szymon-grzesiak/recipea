@@ -14,7 +14,7 @@ const EmptyState = ({ title, subtitle }) => {
       />
 
       <Text className="text-sm font-pmedium text-black">{title}</Text>
-      <Text className="text-xl text-center font-psemibold text-black mt-2">
+      <Text className="text-xl text-center font-semibold text-black mt-2">
         {subtitle}
       </Text>
 

@@ -42,7 +42,7 @@ const SignUp = () => {
             className="w-[115px] h-[34px]"
           />
 
-          <Text className="text-2xl font-semibold text-black mt-10 font-psemibold">
+          <Text className="text-2xl font-semibold text-black mt-10">
             Sign up to Recipea
           </Text>
           <FormField
@@ -71,12 +71,12 @@ const SignUp = () => {
             isLoading={isSubmitting}
           />
           <View className="flex justify-center pt-5 flex-row gap-2">
-            <Text className="text-lg text-black font-pregular">
+            <Text className="text-lg text-black font-normal">
               Have an account already?
             </Text>
             <Link
               href="/sign-in"
-              className="text-lg font-psemibold text-secondary"
+              className="text-lg font-semibold text-secondary"
             >
               Sign in
             </Link>

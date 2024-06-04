@@ -8,7 +8,6 @@ import { Link, router } from "expo-router";
 import { getCurrentUser, signIn } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
-
 const SignIn = () => {
   const { setUser, setIsLoggedIn } = useGlobalContext();
   const [form, setForm] = useState({
@@ -45,7 +44,7 @@ const SignIn = () => {
             className="w-[115px] h-[34px]"
           />
 
-          <Text className="text-2xl font-semibold text-black mt-10 font-psemibold">
+          <Text className="text-2xl font-semibold text-black mt-10">
             Log in to Recipea
           </Text>
           <FormField
@@ -68,12 +67,12 @@ const SignIn = () => {
             isLoading={isSubmitting}
           />
           <View className="flex justify-center pt-5 flex-row gap-2">
-            <Text className="text-lg text-black font-pregular">
+            <Text className="text-lg text-black font-normal">
               Don't have an account?
             </Text>
             <Link
               href="/sign-up"
-              className="text-lg font-psemibold text-secondary"
+              className="text-lg font-semibold text-secondary"
             >
               Sign up
             </Link>

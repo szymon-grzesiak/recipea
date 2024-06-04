@@ -1,5 +1,14 @@
 import { useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Image, Alert } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -15,12 +24,12 @@ const Create = () => {
     title: "",
     thumbnail: null,
     description: "",
-    ingredients: []
+    ingredients: [],
   });
 
   const handleIngredientChange = (text, index, type) => {
     const newIngredients = [...form.ingredients];
-    if (type === 'name') {
+    if (type === "name") {
       newIngredients[index].name = text;
     } else {
       newIngredients[index].quantity = text;
@@ -48,7 +57,12 @@ const Create = () => {
   };
 
   const submit = async () => {
-    if (!form.title || !form.thumbnail || !form.description || form.ingredients.length === 0) {
+    if (
+      !form.title ||
+      !form.thumbnail ||
+      !form.description ||
+      form.ingredients.length === 0
+    ) {
       return Alert.alert("Please provide all fields");
     }
 
@@ -68,7 +82,7 @@ const Create = () => {
         title: "",
         thumbnail: null,
         description: "",
-        ingredients: []
+        ingredients: [],
       });
       setUploading(false);
     }
@@ -76,63 +90,90 @@ const Create = () => {
 
   return (
     <SafeAreaView className="bg-primary h-full">
-      <ScrollView className="px-4 my-6">
-        <Text className="text-2xl text-black font-psemibold">Upload Recipe</Text>
-        <FormField
-          title="Recipe Title"
-          value={form.title}
-          placeholder="Give your recipe a catchy title..."
-          handleChangeText={(text) => setForm({ ...form, title: text })}
-          otherStyles="mt-10"
-        />
-        <View className="mt-7 space-y-2">
-          <Text className="text-base text-black font-pmedium">Thumbnail Image</Text>
-          <TouchableOpacity onPress={() => openPicker("image")}>
-            {form.thumbnail ? (
-              <Image source={{ uri: form.thumbnail.uri }} resizeMode="cover" className="w-full h-64 rounded-2xl" />
-            ) : (
-              <View className="w-full h-16 px-4 bg-black-100 rounded-2xl border-2 border-black-200 flex justify-center items-center flex-row space-x-2">
-                <Image source={icons.upload} resizeMode="contain" alt="upload" className="w-5 h-5" />
-                <Text className="text-sm text-black font-pmedium">Choose a file</Text>
-              </View>
-            )}
-          </TouchableOpacity>
-        </View>
-        <FormField
-          title="Description"
-          value={form.description}
-          placeholder="Description of your recipe"
-          handleChangeText={(text)  => setForm({ ...form, description: text })}
-          otherStyles="mt-7"
-        />
-        {form.ingredients.map((ingredient, index) => (
-          <View key={index} className="flex flex-row justify-between mt-4">
-            <FormField
-              title={`Ingredient ${index + 1} Name`}
-              value={ingredient.name}
-              placeholder="Name of the ingredient"
-              handleChangeText={(text) => handleIngredientChange(text, index, 'name')}
-            />
-            <FormField
-              title={`Ingredient ${index + 1} Quantity`}
-              value={ingredient.quantity}
-              placeholder="Quantity of the ingredient"
-              handleChangeText={(text) => handleIngredientChange(text, index, 'quantity')}
-            />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <ScrollView className="px-4 my-6">
+          <Text className="text-2xl text-black font-semibold">
+            Upload Recipe
+          </Text>
+          <FormField
+            title="Recipe Title"
+            value={form.title}
+            placeholder="Give your recipe a catchy title..."
+            handleChangeText={(text) => setForm({ ...form, title: text })}
+            otherStyles="mt-10"
+          />
+          <View className="mt-7 space-y-2">
+            <Text className="text-base text-black font-pmedium">
+              Thumbnail Image
+            </Text>
+            <TouchableOpacity onPress={() => openPicker("image")}>
+              {form.thumbnail ? (
+                <Image
+                  source={{ uri: form.thumbnail.uri }}
+                  resizeMode="cover"
+                  className="w-full h-64 rounded-2xl"
+                />
+              ) : (
+                <View className="w-full h-16 px-4 bg-black-100 rounded-2xl border-2 border-black-200 flex justify-center items-center flex-row space-x-2">
+                  <Image
+                    source={icons.upload}
+                    resizeMode="contain"
+                    alt="upload"
+                    className="w-5 h-5"
+                  />
+                  <Text className="text-sm text-black font-pmedium">
+                    Choose a file
+                  </Text>
+                </View>
+              )}
+            </TouchableOpacity>
           </View>
-        ))}
-        <TouchableOpacity
-          onPress={addIngredient}
-          className="mt-4 mb-6 bg-primary p-2 rounded-md flex justify-center items-center">
-          <Text className="text-base text-white font-pmedium">Add Another Ingredient</Text>
-        </TouchableOpacity>
-        <CustomButton
-          title="Submit & Publish"
-          handlePress={submit}
-          containerStyles="mt-7"
-          isLoading={uploading}
-        />
-      </ScrollView>
+          <FormField
+            title="Description"
+            value={form.description}
+            placeholder="Description of your recipe"
+            handleChangeText={(text) => setForm({ ...form, description: text })}
+            otherStyles="mt-7"
+          />
+          {form.ingredients.map((ingredient, index) => (
+            <View key={index} className="flex flex-row mt-4 ">
+              <FormField
+                title={`#${index + 1} Name`}
+                value={ingredient.name}
+                placeholder="Name"
+                handleChangeText={(text) =>
+                  handleIngredientChange(text, index, "name")
+                }
+              />
+              <FormField
+                title={`#${index + 1} Quantity`}
+                value={ingredient.quantity}
+                placeholder="Quantity "
+                handleChangeText={(text) =>
+                  handleIngredientChange(text, index, "quantity")
+                }
+              />
+            </View>
+          ))}
+          <TouchableOpacity
+            onPress={addIngredient}
+            className="mt-4 mb-2 bg-black-200 p-2 rounded-xl flex justify-center items-center"
+          >
+            <Text className="text-base text-black font-pmedium">
+              Add Another Ingredient
+            </Text>
+          </TouchableOpacity>
+          <CustomButton
+            title="Submit & Publish"
+            handlePress={submit}
+            containerStyles="mt-7"
+            isLoading={uploading}
+          />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

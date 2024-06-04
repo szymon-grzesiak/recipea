@@ -3,9 +3,9 @@ import { ResizeMode, Video } from "expo-av";
 import { View, Text, TouchableOpacity, Image, Alert } from "react-native";
 import { toggleFavorite, isFavorite, deletePost } from "../lib/appwrite";
 import { Link, usePathname } from "expo-router";
-import * as Sharing from 'expo-sharing';
-import * as FileSystem from 'expo-file-system';
-import { captureRef } from 'react-native-view-shot';
+import * as Sharing from "expo-sharing";
+import * as FileSystem from "expo-file-system";
+import { captureRef } from "react-native-view-shot";
 
 import { icons } from "../constants";
 import useStore from "../lib/store";
@@ -34,9 +34,8 @@ const RecipeCard = ({
         removeFavorite(userId, postId);
       }
     };
-
     checkFavorite();
-  }, []);
+  }, [userId, postId, addFavorite, removeFavorite]);
 
   const handleEdit = () => {
     router.push(`/edit/${postId}`);
@@ -77,15 +76,12 @@ const RecipeCard = ({
 
           <View className="flex justify-center flex-1 ml-3 gap-y-1">
             <Text
-              className="font-psemibold text-sm text-black"
+              className="font-semibold text-sm text-black"
               numberOfLines={2}
             >
               {title}
             </Text>
-            <Text
-              className="text-xs text-black font-pregular"
-              numberOfLines={2}
-            >
+            <Text className="text-xs text-black font-normal" numberOfLines={2}>
               {creator}
             </Text>
           </View>
@@ -110,10 +106,7 @@ const RecipeCard = ({
           </View>
         ) : (
           <View className="relative flex flex-row-reverse justify-center items-center gap-4">
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={handlePress}
-            >
+            <TouchableOpacity activeOpacity={0.7} onPress={handlePress}>
               <Image
                 source={heart ? icons.heart : icons.blackHeart}
                 className="w-8 h-8 bg-white/10 rounded-xl"
@@ -137,7 +130,4 @@ const RecipeCard = ({
     </View>
   );
 };
-
-
-
 export default RecipeCard;

@@ -1,6 +1,6 @@
 import { View, Text, Image } from "react-native";
 import React from "react";
-import { Tabs, Redirect } from "expo-router";
+import { Tabs } from "expo-router";
 import { icons } from "../../constants";
 import { StatusBar } from "expo-status-bar";
 
@@ -14,7 +14,7 @@ const TabIcon = ({ icon, color, name, focused }) => {
         className={`w-6 h-6`}
       />
       <Text
-        className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}
+        className={`${focused ? "font-semibold" : "font-normal"} text-xs`}
         style={{ color: color }}
       >
         {name}
@@ -28,7 +28,7 @@ const TabsLayout = () => {
     <>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: "#FFA001",
+          tabBarActiveTintColor: "#4fc3f7",
           tabBarInactiveTintColor: "#CDCDE0",
           tabBarShowLabel: false,
           tabBarStyle: {
@@ -47,7 +47,7 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={icons.home}
+                icon={icons.drink}
                 color={color}
                 name="Home"
                 focused={focused}
@@ -62,7 +62,7 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={icons.bookmark}
+                icon={icons.flame}
                 color={color}
                 name="Saved"
                 focused={focused}

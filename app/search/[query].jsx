@@ -37,7 +37,7 @@ const Search = () => {
               <Text className="font-pmedium text-black text-sm">
                 Search Results
               </Text>
-              <Text className="text-2xl font-psemibold text-black mt-1">
+              <Text className="text-2xl font-semibold text-black mt-1">
                 {query}
               </Text>
 
