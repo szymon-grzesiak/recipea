@@ -49,8 +49,8 @@ const Home = () => {
         ListHeaderComponent={() => (
           <View className="flex my-6 px-4 space-y-6">
             <View className="flex justify-between items-start flex-row mb-6">
-              <Text className="text-2xl font-semibold text-black">
-                {user?.username}
+              <Text className="flex w-1/2 flex-wrap text-2xl text-black">
+                Happy baking time, <Text className="font-semibold underline">{user?.username}</Text>
               </Text>
               <View className="mt-1.5">
                 <Image

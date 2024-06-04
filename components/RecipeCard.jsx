@@ -10,6 +10,7 @@ import { captureRef } from "react-native-view-shot";
 import { icons } from "../constants";
 import useStore from "../lib/store";
 import { router } from "expo-router";
+import { useGlobalContext } from "../context/GlobalProvider";
 
 const RecipeCard = ({
   description,
@@ -21,21 +22,25 @@ const RecipeCard = ({
   userId,
   postId,
 }) => {
+  const { user } = useGlobalContext(); // uzyskaj dane zalogowanego użytkownika
   const favorites = useStore((state) => state.favorites);
   const addFavorite = useStore((state) => state.addFavorite);
   const removeFavorite = useStore((state) => state.removeFavorite);
 
+  const userData = user?.$id
+
   useEffect(() => {
     const checkFavorite = async () => {
-      const favId = await isFavorite({ userId, postId });
+      if(!user) return;
+      const favId = await isFavorite({ userId: userData, postId }); // użyj userId zalogowanego użytkownika
       if (favId) {
-        addFavorite(userId, postId);
+        addFavorite(userData, postId);
       } else {
-        removeFavorite(userId, postId);
+        removeFavorite(userData, postId);
       }
     };
     checkFavorite();
-  }, [userId, postId, addFavorite, removeFavorite]);
+  }, [userData, postId, addFavorite, removeFavorite]); // dodaj user.$id do dependencies
 
   const handleEdit = () => {
     router.push(`/edit/${postId}`);
@@ -49,19 +54,19 @@ const RecipeCard = ({
   };
 
   const handlePress = async () => {
-    const favId = await isFavorite({ userId, postId });
+    const favId = await isFavorite({ userId: userData, postId }); // użyj userId zalogowanego użytkownika
     if (favId === null) {
       return;
     }
-    const newFavStatus = await toggleFavorite({ userId, postId, favId });
+    const newFavStatus = await toggleFavorite({ userId: userData, postId, favId }); // użyj userId zalogowanego użytkownika
     if (newFavStatus) {
-      addFavorite(userId, postId);
+      addFavorite(userData, postId);
     } else {
-      removeFavorite(userId, postId);
+      removeFavorite(userData, postId);
     }
   };
 
-  const heart = !!favorites[`${userId}-${postId}`];
+  const heart = !!favorites[`${userData}-${postId}`]; // użyj userId zalogowanego użytkownika
   return (
     <View className="flex flex-col items-center px-4 mb-14">
       <View className="flex flex-row gap-3 items-center">
@@ -87,7 +92,7 @@ const RecipeCard = ({
           </View>
         </View>
 
-        {onProfile ? (
+        {onProfile ? ( // sprawdź, czy zalogowany użytkownik jest twórcą postu
           <View className="flex flex-row gap-x-4">
             <TouchableOpacity activeOpacity={0.7} onPress={handleEdit}>
               <Image
