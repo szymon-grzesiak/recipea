@@ -20,8 +20,8 @@ Jeśli nie masz Node.js zainstalowanego na swoim komputerze, wykonaj następują
 Sklonuj repozytorium lub pobierz zipa:
 
 ```bash
-git clone https://github.com/NesteyY/prup-project.git
-cd prup-project
+git clone https://github.com/itsJasberry/recipea.git
+cd recipea
 ```
 
 Zainstaluj zależności:
