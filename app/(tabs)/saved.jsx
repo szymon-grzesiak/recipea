@@ -29,6 +29,7 @@ const Bookmark = () => {
     refetch();
   }, [favorites]);
 
+
   return (
     <SafeAreaView className="bg-primary h-full">
       <FlatList

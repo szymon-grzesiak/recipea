@@ -1,11 +1,6 @@
-import { useState, useEffect } from "react";
-import { ResizeMode, Video } from "expo-av";
-import { View, Text, TouchableOpacity, Image, Alert } from "react-native";
+import { useState, useEffect, Suspense } from "react";
+import { View, Text, TouchableOpacity, Image, Alert, ActivityIndicator } from "react-native";
 import { toggleFavorite, isFavorite, deletePost } from "../lib/appwrite";
-import { Link, usePathname } from "expo-router";
-import * as Sharing from "expo-sharing";
-import * as FileSystem from "expo-file-system";
-import { captureRef } from "react-native-view-shot";
 
 import { icons } from "../constants";
 import useStore from "../lib/store";
@@ -22,16 +17,17 @@ const RecipeCard = ({
   userId,
   postId,
 }) => {
+  const [isLoaded, setIsLoaded] = useState(false);  // Stan do śledzenia, czy obraz został załadowany
   const { user } = useGlobalContext(); // uzyskaj dane zalogowanego użytkownika
   const favorites = useStore((state) => state.favorites);
   const addFavorite = useStore((state) => state.addFavorite);
   const removeFavorite = useStore((state) => state.removeFavorite);
 
-  const userData = user?.$id
+  const userData = user?.$id;
 
   useEffect(() => {
     const checkFavorite = async () => {
-      if(!user) return;
+      if (!user) return;
       const favId = await isFavorite({ userId: userData, postId }); // użyj userId zalogowanego użytkownika
       if (favId) {
         addFavorite(userData, postId);
@@ -53,12 +49,22 @@ const RecipeCard = ({
     Alert.alert("Post deleted successfully");
   };
 
+  const Loader = () => (
+    <View className="flex justify-center items-center w-full h-60">
+      <Text>Loading...</Text>
+    </View>
+  );
+
   const handlePress = async () => {
     const favId = await isFavorite({ userId: userData, postId }); // użyj userId zalogowanego użytkownika
     if (favId === null) {
       return;
     }
-    const newFavStatus = await toggleFavorite({ userId: userData, postId, favId }); // użyj userId zalogowanego użytkownika
+    const newFavStatus = await toggleFavorite({
+      userId: userData,
+      postId,
+      favId,
+    }); // użyj userId zalogowanego użytkownika
     if (newFavStatus) {
       addFavorite(userData, postId);
     } else {
@@ -128,9 +134,23 @@ const RecipeCard = ({
       >
         <Image
           source={{ uri: thumbnail }}
-          className="w-full h-full rounded-xl mt-3"
+          className="w-full h-full rounded-xl"
           resizeMode="cover"
+          onLoad={() => setIsLoaded(true)}
         />
+        {!isLoaded && (
+          <View
+            style={{
+              position: "absolute",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
+        )}
       </TouchableOpacity>
     </View>
   );

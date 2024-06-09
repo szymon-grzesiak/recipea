@@ -14,6 +14,7 @@ import * as Sharing from "expo-sharing";
 import { captureRef } from "react-native-view-shot";
 
 const Page = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [post, setPost] = useState(null);
   const [error, setError] = useState(null);
   const { id } = useLocalSearchParams();
@@ -100,7 +101,21 @@ const Page = () => {
         <Image
           source={{ uri: post.thumbnail }}
           className="rounded-lg border-4 w-full h-[200px]"
+          onLoad={() => setIsLoaded(true)}
         />
+        {!isLoaded && (
+          <View
+            style={{
+              position: "absolute",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
+        )}
 
         <Text className="text-xl tracking-widest">Ingredients</Text>
         <View className="w-full bg-black/5 shadow-md rounded-xl">
