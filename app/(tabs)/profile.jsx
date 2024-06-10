@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-
-import { router } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   View,
@@ -20,19 +19,24 @@ const Profile = () => {
   const { user, setUser, setIsLoggedIn } = useGlobalContext();
   const { data: posts, refetch } = useAppwrite(() => getUserPosts(user.$id));
   const [refreshing, setRefreshing] = useState(false);
+  const navigation = useNavigation(); // Use useNavigation hook
 
   const logout = async () => {
     await signOut();
     setUser(null);
     setIsLoggedIn(false);
 
-    router.replace("/sign-in");
+    navigation.replace("index");
   };
 
   const onRefresh = async () => {
     setRefreshing(true);
     await refetch();
     setRefreshing(false);
+  };
+
+  const navigateToLicense = () => {
+    navigation.navigate("license");
   };
 
   return (
@@ -60,16 +64,22 @@ const Profile = () => {
         )}
         ListHeaderComponent={() => (
           <View className="w-full flex justify-center items-center mt-6 mb-12 px-4">
-            <TouchableOpacity
-              onPress={logout}
-              className="flex w-full items-end mb-10"
-            >
-              <Image
-                source={icons.logout}
-                resizeMode="contain"
-                className="w-6 h-6"
-              />
-            </TouchableOpacity>
+            <View className="flex w-full justify-end mb-10 flex-row">
+              <TouchableOpacity onPress={navigateToLicense} className="mr-4">
+                <Image
+                  source={icons.bookmark}
+                  resizeMode="contain"
+                  className="w-6 h-6"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={logout}>
+                <Image
+                  source={icons.logout}
+                  resizeMode="contain"
+                  className="w-6 h-6"
+                />
+              </TouchableOpacity>
+            </View>
 
             <View className="w-16 h-16 border border-secondary rounded-lg flex justify-center items-center">
               <Image
@@ -92,10 +102,7 @@ const Profile = () => {
                 titleStyles="text-xl"
                 containerStyles="mr-10"
               />
-              <InfoBox
-                title="Check them out"
-                titleStyles="text-xl"
-              />
+              <InfoBox title="Check them out" titleStyles="text-xl" />
             </View>
           </View>
         )}
