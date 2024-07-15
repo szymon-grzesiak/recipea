@@ -89,11 +89,9 @@ Download the [Expo Go](https://expo.dev/go) app onto your device, then use it to
 ![Share](assets/images/share.png)
 ![Favorites](assets/images/favourites.png)
 
-
-
 ## <a name="links">🔗 Links</a>
 
-- Project Repository: [GitHub](https://github.com/yourusername/recipea)
+- Project Repository: [GitHub](https://github.com/itsJasberry/recipea)
 - License: [MIT License](https://opensource.org/licenses/MIT)
 
 ## <a name="more">🚀 More</a>
@@ -101,7 +99,7 @@ Download the [Expo Go](https://expo.dev/go) app onto your device, then use it to
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://opensource.org/licenses/MIT) file for details.
+This project is licensed under the MIT License [LICENSE](./LICENSE).
 
 ## Contact Information
 Author: Szymon Grzesiak  
