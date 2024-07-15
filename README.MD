@@ -82,7 +82,7 @@ Download the [Expo Go](https://expo.dev/go) app onto your device, then use it to
 
 ## <a name="screenshots">🕸️ Screenshots</a>
 
-![Home Screen](assets/images/pimages/homeScreen.png)
+![Home Screen](assets/images/homeScreen.png)
 ![Recipe Details](assets/images/details.png)
 ![Create Recipe](assets/mages/create.png)
 ![Login](assets/images/login.png)
