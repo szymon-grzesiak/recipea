@@ -84,7 +84,7 @@ Download the [Expo Go](https://expo.dev/go) app onto your device, then use it to
 
 ![Home Screen](assets/images/homeScreen.png)
 ![Recipe Details](assets/images/details.png)
-![Create Recipe](assets/mages/create.png)
+![Create Recipe](assets/images/create.png)
 ![Login](assets/images/login.png)
 ![Share](assets/images/share.png)
 ![Favorites](assets/images/favourites.png)
