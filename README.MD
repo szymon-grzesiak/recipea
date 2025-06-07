@@ -1,4 +1,9 @@
 # Recipea Application Documentation
+
+#
+Whole documentation of this codebase available at: [https://deepwiki.com/szymon-grzesiak/recipea](https://deepwiki.com/szymon-grzesiak/recipea)
+#
+
 ![First screen](./assets/images/firstScreen.png)
 
 ## 📋 <a name="table">Table of Contents</a>
